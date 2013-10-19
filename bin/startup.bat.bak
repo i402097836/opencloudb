@@ -1,0 +1,1 @@
+java -Ddaas.home='..' -cp "..\conf;..\dis-lib\*" org.opencloudb.MycatStartup
