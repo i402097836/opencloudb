@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<!DOCTYPE mycat:schema SYSTEM "schema.dtd">
+<mycat:schema xmlns:mycat="http://org.opencloudb/">
+
+	<schema name="TESTDB">
+
+		<table name="tasklog" dataNode="dn1_M1" />
+		<table name="company" dataNode="dn1_M1,dn2_M1" rule="sharding-by-intfile" />
+
+
+	</schema>
+
+
+	<schema name="TestWR" dataNode="dn1_M1">
+	</schema>
+
+	<dataNode name="dn1_M1">
+		<property name="dataSource">
+			<dataSourceRef>ds_dn1_M1</dataSourceRef>
+			<dataSourceRef>ds_dn1_M2</dataSourceRef>
+		</property>
+		<property name="waitTimeout">3000</property>
+		<property name="poolSize">100</property>
+		<property name="heartbeat">select user()</property>
+	</dataNode>
+
+	<dataNode name="dn1_M2">
+		<property name="dataSource">
+			<dataSourceRef>ds_dn1_M2</dataSourceRef>
+		</property>
+		<property name="waitTimeout">3000</property>
+		<property name="poolSize">100</property>
+		<property name="heartbeat">select user()</property>
+	</dataNode>
+
+	<dataNode name="dn2_M1">
+		<property name="dataSource">
+			<dataSourceRef>ds_dn2_M1</dataSourceRef>
+			<dataSourceRef>ds_dn2_M2</dataSourceRef>
+		</property>
+		<property name="waitTimeout">3000</property>
+		<property name="poolSize">100</property>
+		<property name="heartbeat">select user()</property>
+	</dataNode>
+	<dataNode name="dn2_M2">
+		<property name="dataSource">
+			<dataSourceRef>ds_dn2_M2</dataSourceRef>
+		</property>
+		<property name="waitTimeout">3000</property>
+		<property name="poolSize">100</property>
+		<property name="heartbeat">select user()</property>
+	</dataNode>
+
+
+	<dataNode name="dn1_s">
+		<property name="dataSource">
+			<dataSourceRef>ds1_s</dataSourceRef>
+		</property>
+		<property name="waitTimeout">3000</property>
+		<property name="poolSize">100</property>
+		<property name="heartbeat">select user()</property>
+	</dataNode>
+	
+	<dataNode name="dn1_s_bak">
+		<property name="dataSource">
+			<dataSourceRef>ds1_s_bak</dataSourceRef>
+		</property>
+		<property name="waitTimeout">3000</property>
+		<property name="poolSize">100</property>
+		<property name="heartbeat">select user()</property>
+	</dataNode>
+	
+	<dataNode name="dn2_s">
+		<property name="dataSource">
+			<dataSourceRef>ds2_s</dataSourceRef>
+		</property>
+		<property name="waitTimeout">3000</property>
+		<property name="poolSize">100</property>
+		<property name="heartbeat">select user()</property>
+	</dataNode>
+<dataNode name="dn2_s_bak">
+		<property name="dataSource">
+			<dataSourceRef>ds2_s_bak</dataSourceRef>
+		</property>
+		<property name="waitTimeout">3000</property>
+		<property name="poolSize">100</property>
+		<property name="heartbeat">select user()</property>
+	</dataNode>
+
+	<dataNode name="sequnce_dn">
+		<property name="dataSource">
+			<dataSourceRef>ds_localhost_sequncedb</dataSourceRef>
+		</property>
+		<property name="waitTimeout">3000</property>
+		<property name="poolSize">100</property>
+		<property name="heartbeat">select user()</property>
+	</dataNode>
+
+<!-- 
+	<read-write-mapping>
+		<node-pair source="dn1_M1"
+			dest="dn1_M1,dn1_s;dn1_M2,dn1_s_bak">
+		</node-pair>
+
+			<node-pair source="dn2_M1"
+			dest="dn2_M1,dn2_s;dn2_M2,dn2_s_bak">
+		</node-pair>
+		</read-write-mapping>
+ -->
+
+	
+
+
+	<dataSource name="ds_dn1_M1" type="mysql">
+		<property name="location">
+			<location>localhost:3306/masterdb1</location>
+		</property>
+		<property name="user">root</property>
+		<property name="password">123456</property>
+		<property name="sqlMode">STRICT_TRANS_TABLES</property>
+	</dataSource>
+
+	<dataSource name="ds_dn1_M2" type="mysql">
+		<property name="location">
+			<location>localhost:3306/masterdb1bak</location>
+		</property>
+		<property name="user">root</property>
+		<property name="password">123456</property>
+		<property name="sqlMode">STRICT_TRANS_TABLES</property>
+	</dataSource>
+
+
+	<dataSource name="ds_dn2_M1" type="mysql">
+		<property name="location">
+			<location>localhost:3306/masterdb2</location>
+		</property>
+		<property name="user">root</property>
+		<property name="password">123456</property>
+		<property name="sqlMode">STRICT_TRANS_TABLES</property>
+	</dataSource>
+
+	<dataSource name="ds_dn2_M2" type="mysql">
+		<property name="location">
+			<location>localhost:3306/masterdb2bak</location>
+		</property>
+		<property name="user">root</property>
+		<property name="password">123456</property>
+		<property name="sqlMode">STRICT_TRANS_TABLES</property>
+	</dataSource>
+
+	<dataSource name="ds1_s" type="mysql">
+		<property name="location">
+			<location>localhost:3306/db1_s1</location>
+		</property>
+		<property name="user">root</property>
+		<property name="password">123456</property>
+		<property name="sqlMode">STRICT_TRANS_TABLES</property>
+	</dataSource>
+	
+<dataSource name="ds1_s_bak" type="mysql">
+		<property name="location">
+			<location>localhost:3306/db1_s2</location>
+		</property>
+		<property name="user">root</property>
+		<property name="password">123456</property>
+		<property name="sqlMode">STRICT_TRANS_TABLES</property>
+	</dataSource>
+
+
+	<dataSource name="ds2_s" type="mysql">
+		<property name="location">
+			<location>localhost:3306/db2_s1</location>
+		</property>
+		<property name="user">root</property>
+		<property name="password">123456</property>
+		<property name="sqlMode">STRICT_TRANS_TABLES</property>
+	</dataSource>
+
+<dataSource name="ds2_s_bak" type="mysql">
+		<property name="location">
+			<location>localhost:3306/db2_s2</location>
+		</property>
+		<property name="user">root</property>
+		<property name="password">123456</property>
+		<property name="sqlMode">STRICT_TRANS_TABLES</property>
+	</dataSource>
+	<dataSource name="ds_localhost_sequncedb" type="mysql">
+		<property name="location">
+			<location>localhost:3306/sequecedb</location>
+		</property>
+		<property name="user">root</property>
+		<property name="password">123456</property>
+		<property name="sqlMode">STRICT_TRANS_TABLES</property>
+	</dataSource>
+
+</mycat:schema>
